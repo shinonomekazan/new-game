@@ -1,8 +1,7 @@
 node_modules
-script
+/script
 coverage
 game.zip
 /.vs
 /tmp
 /document/diagram.png
-/assets
