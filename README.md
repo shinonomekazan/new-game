@@ -1,5 +1,6 @@
-## Game: Object Hunt
-<img width="607" alt="image" src="">
+## Game: 
+<img width="476" alt="image" src="https://github.com/user-attachments/assets/e002bb0c-76db-4208-8856-ed252bc2d538" />
+
 
 ## 利用方法
 
