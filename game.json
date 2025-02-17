@@ -1,0 +1,57 @@
+{
+	"width": 1280,
+	"height": 720,
+	"fps": 30,
+	"main": "./script/bundle.js",
+	"assets": {
+		"bundle": {
+			"type": "script",
+			"path": "script/bundle.js",
+			"global": true
+		},
+		"assets/back_living.png": {
+			"type": "image",
+			"path": "assets/back_living.png",
+			"width": 1281,
+			"height": 721
+		},
+		"assets/button_start.png": {
+			"type": "image",
+			"path": "assets/button_start.png",
+			"width": 1106,
+			"height": 108
+		},
+		"assets/message_window.png": {
+			"type": "image",
+			"path": "assets/message_window.png",
+			"width": 1142,
+			"height": 240
+		},
+		"assets/title0.png": {
+			"type": "image",
+			"path": "assets/title0.png",
+			"width": 1047,
+			"height": 245
+		},
+		"assets/button_start.psd": {
+			"type": "binary",
+			"path": "assets/button_start.psd"
+		}
+	},
+	"moduleMainScripts": {},
+	"environment": {
+		"sandbox-runtime": "3",
+		"akashic-runtime": {
+			"version": "~3.7.0-0",
+			"flavor": "-canvas"
+		},
+		"nicolive": {
+			"supportedModes": [
+				"single",
+				"multi"
+			]
+		}
+	},
+	"globalScripts": [],
+	"defaultLoadingScene": "none"
+}

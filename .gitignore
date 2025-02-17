@@ -1,0 +1,9 @@
+node_modules
+script
+coverage
+game.zip
+game/
+/.vs
+/tmp
+/document/diagram.png
+/assets
