@@ -3,21 +3,26 @@ import { Helper } from "./helper";
 import * as al from "@akashic-extension/akashic-label";
 import { TextAlign } from "@akashic/akashic-engine";
 import { FlowEventName } from "./mainScene";
-
+import { getSender } from "./sender";
 export class mainStage extends BaseStep {
 	private txtChat: al.Label;
 	private chat: string[];
 	private chatIndex: number = 0;
+	private xmlRoot: Element;
 	public onStep(eventName: FlowEventName) {
 		switch (eventName) {
 			case FlowEventName.GameLoad:
+				this.xmlRoot = getSender();
 				this.chat = [];
-				this.chat.push('もうすぐ育休に入る')
-				this.chat.push('赤ちゃんがやってくるのはとても楽しみだけど')
-				this.chat.push('ここまで積み上げてきたキャリアはどうなるだろうか？')
-				this.chat.push('初めての育児と仕事を両立できるだろうか？')
-				this.chat.push('これから、どんな選択が必要になるのか？')
-				this.chat.push('ちょっと覗いてみよう！！')
+				for (var i = 0; i < this.xmlRoot.children.length; i++) {
+					for (var j = 0; j < this.xmlRoot.children[i].attributes.length; j++) {
+						const name = this.xmlRoot.children[i].attributes[j].name
+						if (name == 'content') {
+							this.chat.push(this.xmlRoot.children[i].attributes[j].value)
+						}
+					}
+				}
+
 				this.runNext();
 				break;
 			case FlowEventName.GotoMainStage:

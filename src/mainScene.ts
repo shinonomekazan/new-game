@@ -1,6 +1,8 @@
 import { FlowManager } from "./flow/flowManager";
 import { Flow } from "./flow/step";
+import { loadData } from "./loadData";
 import { mainStage } from "./mainStage";
+import { initialSender } from "./sender";
 import { startStage } from "./startStage";
 export enum FlowEventName {
 	Test,
@@ -15,6 +17,7 @@ export class MainScene extends g.Scene {
 			"/assets/title0.png",
 			"/assets/button_start.png",
 			"/assets/message_window.png",
+			"/assets/data.xml",
 		];
 		super(param);
 		this.onLoad.add(this.onGameLoad, this);
@@ -24,11 +27,14 @@ export class MainScene extends g.Scene {
 		this.flowManger.onUpdate();
 	}
 	private onGameLoad() {
+		initialSender();
 		this.flowManger = new FlowManager();
 		let uiMainStageStep = new mainStage();
 		let uiMainMenuStep = new startStage();
+		let loadDataStep = new loadData();
 		//FlowEventName.GameLoad
 		let flowLoad = new Flow(FlowEventName.GameLoad);
+		flowLoad.steps.push(loadDataStep)
 		flowLoad.steps.push(uiMainStageStep)
 		flowLoad.steps.push(uiMainMenuStep)
 		this.flowManger.addFlow(flowLoad);

@@ -36,6 +36,10 @@
 		"assets/button_start.psd": {
 			"type": "binary",
 			"path": "assets/button_start.psd"
+		},
+		"assets/data.xml": {
+			"type": "text",
+			"path": "assets/data.xml"
 		}
 	},
 	"moduleMainScripts": {},
