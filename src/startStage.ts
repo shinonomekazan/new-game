@@ -1,7 +1,7 @@
 import { Button } from "./button";
-import { FlowEventName } from "./flow/flowManager";
 import { BaseStep } from "./flow/step";
 import { Helper } from "./helper";
+import { FlowEventName } from "./mainScene";
 
 export class startStage extends BaseStep {
 	private btnPlay: Button;
@@ -31,6 +31,7 @@ export class startStage extends BaseStep {
 				break;
 			case FlowEventName.GotoMainStage:
 				if (this.playClicked == true) {
+					this.playClicked = false;
 					this.btnPlay.hide();
 					this.spriteTitle.hide();
 					this.runNext();

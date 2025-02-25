@@ -1,8 +1,8 @@
-import { FlowEventName } from "./flow/flowManager";
 import { BaseStep } from "./flow/step";
 import { Helper } from "./helper";
 import * as al from "@akashic-extension/akashic-label";
 import { TextAlign } from "@akashic/akashic-engine";
+import { FlowEventName } from "./mainScene";
 
 export class mainStage extends BaseStep {
 	private txtChat: al.Label;
@@ -50,7 +50,6 @@ export class mainStage extends BaseStep {
 
 	}
 	private onPointUp() {
-		console.log('......x');
 		this.chatIndex++;
 		if (this.chatIndex < this.chat.length) {
 			this.txtChat.text = this.chat[this.chatIndex];
