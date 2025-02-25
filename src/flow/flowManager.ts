@@ -1,17 +1,12 @@
 import { startStage } from "../startStage";
 import { mainStage } from "../mainStage";
 import { BaseStep, Flow } from "./step";
-
-export enum FlowEventName {
-	Test,
-	GameLoad,
-	GotoMainStage
-}
+import { FlowEventName } from "../mainScene";
 export class FlowManager {
 	public constructor() { }
-	private static eventName: FlowEventName;
-	public flows: Flow[];
-	public currentFlow: Flow[];
+	public static eventName: FlowEventName;
+	public flows: Flow[] = [];
+	public currentFlow: Flow[] = [];
 	public loop: { [id: string]: boolean; } = {};
 	public fire(eventName: FlowEventName, sender: object = undefined) {
 		//console.log('fire ', eventName);
@@ -35,11 +30,18 @@ export class FlowManager {
 	public onUpdate() {
 		//console.log('L ', this.currentFlow.length);
 		for (let i = 0; i < this.currentFlow.length; i++) {
+			for (var j = 0; j < this.currentFlow[i].steps.length; j++) {
+				this.currentFlow[i].steps[j].onUpdate();
+			}
+		}
+		for (let i = 0; i < this.currentFlow.length; i++) {
+			FlowManager.eventName = this.currentFlow[i].eventName;
 			let tmp = 0;
 			while (true) {
 				tmp++;
 				if (tmp == 100) {
-					console.error('??');
+					console.error('??', FlowManager.eventName);
+					throw (this.currentFlow[i].steps[this.currentFlow[i].stepIndex])
 					break;
 				}
 				if (this.currentFlow[i].steps.length == 0) {
@@ -48,9 +50,6 @@ export class FlowManager {
 				}
 				BaseStep.runIndex = this.currentFlow[i].stepIndex;
 				this.currentFlow[i].steps[this.currentFlow[i].stepIndex].onStep(this.currentFlow[i].eventName);
-				if (BaseStep.runIndex == 0) {
-					FlowManager.eventName = this.currentFlow[i].eventName;
-				}
 				if (BaseStep.runIndex == BaseStep.runNextNextFrame) {
 					BaseStep.runIndex++;
 				}
@@ -58,36 +57,19 @@ export class FlowManager {
 					break;
 				}
 				if (BaseStep.runIndex == this.currentFlow[i].steps.length) {
-					if (this.loop[FlowManager.eventName]) {
+					if (this.loop[this.currentFlow[i].eventName]) {
 						BaseStep.runIndex = 0;
+						this.currentFlow[i].stepIndex = 0;
 					} else {
 						this.currentFlow.splice(i, 1);
-						break;
 					}
+					break;
 				}
 				this.currentFlow[i].stepIndex = BaseStep.runIndex;
 			}
 		}
 	}
-	public setupFlow() {
-		this.flows = [];
-		this.currentFlow = [];
-		let uiMainStageStep = new mainStage();
-		let uiMainMenuStep = new startStage();
-		//FlowEventName.GameLoad
-		let flowLoad = new Flow(FlowEventName.GameLoad);
-		flowLoad.steps.push(uiMainStageStep)
-		flowLoad.steps.push(uiMainMenuStep)
-		this.flows.push(flowLoad);
-		//FlowEventName.Test
-		let flowTest = new Flow(FlowEventName.Test);
-		this.flows.push(flowTest);
-		//FlowEventName.GotoMainStage
-		let flowGotoMainStage = new Flow(FlowEventName.GotoMainStage);
-		flowGotoMainStage.steps.push(uiMainMenuStep);
-		flowGotoMainStage.steps.push(uiMainStageStep);
-		this.flows.push(flowGotoMainStage);
-
+	public addFlow(flow: Flow) {
+		this.flows.push(flow);
 	}
-
 }
