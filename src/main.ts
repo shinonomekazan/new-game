@@ -9,7 +9,8 @@ declare global {
 }
 async function main(param: g.GameMainParameterObject): Promise<void> {
 	//console.log(param);
-	globalThis.debugMode = true;
+	const urlParams = new URLSearchParams(window.location.search);
+	globalThis.debugMode = urlParams.get('debugf') != null;
 	globalThis.font = new g.DynamicFont({
 		game: g.game,
 		fontFamily: "M PLUS 1",
