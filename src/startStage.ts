@@ -1,43 +1,70 @@
 import { Button } from "./button";
-import { FlowEventName } from "./flow/flowManager";
 import { BaseStep } from "./flow/step";
 import { Helper } from "./helper";
+import { FlowEventName } from "./mainScene";
+import { getSender } from "./sender";
+import { layout } from "./stageLayout";
 
 export class startStage extends BaseStep {
 	private btnPlay: Button;
 	private playClicked = false;
+	private lockClick = false;
 	private spriteTitle: g.Sprite;
+	private waitFadeout = false;
 	public onStep(eventName: FlowEventName) {
 		switch (eventName) {
 			case FlowEventName.GameLoad:
-				let scene = g.game.scene();
+				const scene = g.game.scene();
 				//
-				let bg = Helper.newSprite('/assets/back_living.png')
-				scene.append(bg)
+				const layout: layout = getSender();
+				console.log(layout)
 				this.spriteTitle = Helper.newSprite('/assets/title0.png')
-				scene.append(this.spriteTitle)
+				layout.background.append(this.spriteTitle)
 				this.spriteTitle.x = g.game.width / 2 - this.spriteTitle.width / 2;
 				this.spriteTitle.modified();
 				let img = scene.asset.getImage('/assets/button_start.png')
 				this.btnPlay = new Button(scene, img, 108, 553)
 				this.btnPlay.onClick.add(() => {
-					console.log('play clicked');
-					this.playClicked = true;
+					if (this.lockClick == false) {
+						console.log('play clicked');
+						this.playClicked = true;
+						this.lockClick = true;
+					}
 				})
-				scene.append(this.btnPlay)
+				layout.background.append(this.btnPlay)
 				this.btnPlay.x = g.game.width / 2 - this.btnPlay.width / 2;
 				this.btnPlay.y = g.game.height / 2 - this.btnPlay.height / 2 + 200;
 				this.runNext();
 				break;
 			case FlowEventName.GotoMainStage:
+				if (this.waitFadeout) {
+					this.runThisNextFrame();
+					console.log('w1');
+					break;
+				}
 				if (this.playClicked == true) {
+					this.playClicked = false;
 					this.btnPlay.hide();
 					this.spriteTitle.hide();
+					//this.gotoMainStage();
+					//if (this.waitFadeout) {
+					//console.log('w2');
+					//	this.runThisNextFrame();
+					//	break;
+					//}
 					this.runNext();
 				} else {
+					console.log('w3');
 					this.runThisNextFrame();
 				}
 				break;
 		}
+	}
+	private async gotoMainStage() {
+		this.waitFadeout = true;
+		await Helper.fadeOutAsync(this.spriteTitle.parent as g.E, 1000)
+		this.btnPlay.hide();
+		this.spriteTitle.hide();
+		this.waitFadeout = false;
 	}
 }
