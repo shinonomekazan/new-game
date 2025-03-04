@@ -40,6 +40,46 @@
 		"assets/data.xml": {
 			"type": "text",
 			"path": "assets/data.xml"
+		},
+		"assets/white.png": {
+			"type": "image",
+			"path": "assets/white.png",
+			"width": 1280,
+			"height": 720
+		},
+		"assets/fire-gray.png": {
+			"type": "image",
+			"path": "assets/fire-gray.png",
+			"width": 128,
+			"height": 163
+		},
+		"assets/fire.png": {
+			"type": "image",
+			"path": "assets/fire.png",
+			"width": 128,
+			"height": 163
+		},
+		"assets/btn-mess-next.png": {
+			"type": "image",
+			"path": "assets/btn-mess-next.png",
+			"width": 136,
+			"height": 30
+		},
+		"assets/btn-next-2.png": {
+			"type": "image",
+			"path": "assets/btn-next-2.png",
+			"width": 68,
+			"height": 30
+		},
+		"assets/btn-next.png": {
+			"type": "image",
+			"path": "assets/btn-next.png",
+			"width": 68,
+			"height": 30
+		},
+		"assets/btn-next.psd": {
+			"type": "binary",
+			"path": "assets/btn-next.psd"
 		}
 	},
 	"moduleMainScripts": {},
