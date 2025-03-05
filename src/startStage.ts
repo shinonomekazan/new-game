@@ -15,11 +15,10 @@ export class startStage extends BaseStep {
 		switch (eventName) {
 			case FlowEventName.GameLoad:
 				const scene = g.game.scene();
-				//
 				const layout: layout = getSender();
 				console.log(layout)
 				this.spriteTitle = Helper.newSprite('/assets/title0.png')
-				layout.background.append(this.spriteTitle)
+				layout.uiLayer.append(this.spriteTitle)
 				this.spriteTitle.x = g.game.width / 2 - this.spriteTitle.width / 2;
 				this.spriteTitle.modified();
 				let img = scene.asset.getImage('/assets/button_start.png')
@@ -31,7 +30,7 @@ export class startStage extends BaseStep {
 						this.lockClick = true;
 					}
 				})
-				layout.background.append(this.btnPlay)
+				layout.uiLayer.append(this.btnPlay)
 				this.btnPlay.x = g.game.width / 2 - this.btnPlay.width / 2;
 				this.btnPlay.y = g.game.height / 2 - this.btnPlay.height / 2 + 200;
 				this.runNext();
@@ -39,32 +38,17 @@ export class startStage extends BaseStep {
 			case FlowEventName.GotoMainStage:
 				if (this.waitFadeout) {
 					this.runThisNextFrame();
-					console.log('w1');
 					break;
 				}
 				if (this.playClicked == true) {
 					this.playClicked = false;
 					this.btnPlay.hide();
 					this.spriteTitle.hide();
-					//this.gotoMainStage();
-					//if (this.waitFadeout) {
-					//console.log('w2');
-					//	this.runThisNextFrame();
-					//	break;
-					//}
 					this.runNext();
 				} else {
-					console.log('w3');
 					this.runThisNextFrame();
 				}
 				break;
 		}
-	}
-	private async gotoMainStage() {
-		this.waitFadeout = true;
-		await Helper.fadeOutAsync(this.spriteTitle.parent as g.E, 1000)
-		this.btnPlay.hide();
-		this.spriteTitle.hide();
-		this.waitFadeout = false;
 	}
 }

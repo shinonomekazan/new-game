@@ -11,9 +11,9 @@ export class layout {
 			scene: scene,
 			parent: globalThis.gameLayer
 		});
-		this.background3 = this.newE(scene);
-		this.background2 = this.newE(scene);
 		this.background = this.newE(scene);
+		this.charaLayer = this.newE(scene);
+		this.uiLayer = this.newE(scene);
 		this.message2 = this.newE(scene);
 		this.message = this.newE(scene);
 	}
@@ -24,9 +24,9 @@ export class layout {
 		});
 	}
 	root: g.E;
+	uiLayer: g.E;
+	charaLayer: g.E;
 	background: g.E;
-	background2: g.E;
-	background3: g.E;
 	message: g.E;
 	message2: g.E;
 }

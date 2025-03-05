@@ -6,6 +6,7 @@ import { FlowEventName } from "./mainScene";
 import { getSender } from "./sender";
 import { actionSender } from "./mainStage";
 import { Button } from "./button";
+import { layout } from "./stageLayout";
 enum state {
 	none, running, done, btnNext, btnNextClicked,
 }
@@ -21,7 +22,8 @@ export class messageWindow extends BaseStep {
 		switch (eventName) {
 			case FlowEventName.GameLoad:
 				let scene = g.game.scene();
-				const parent = gameLayer;
+				const layout: layout = getSender();
+				const parent = layout.uiLayer;
 				this.sprChatBg = Helper.newSprite9Slice('/assets/message_window.png',
 					1142, 240,
 					{ top: 10, bottom: 10, left: 10, right: 10 });
@@ -85,6 +87,12 @@ export class messageWindow extends BaseStep {
 								console.log('net buttn');
 								this.state = state.btnNext;
 								this.btnNext.show()
+							}
+							break;
+						case 'message-hide':
+							{
+								this.sprChatBg.hide();
+								console.log('HIEDEdddddd');
 							}
 							break;
 						default:

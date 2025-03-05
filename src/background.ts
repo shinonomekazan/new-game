@@ -18,7 +18,7 @@ export class background extends BaseStep {
 		switch (eventName) {
 			case FlowEventName.GameLoad:
 				const layout: layout = getSender();
-				this.layer = layout.background3;
+				this.layer = layout.background;
 				this.setBg('/assets/back_living.png', 0)
 				//const scene = g.game.scene();
 				//const parent = globalThis.gameLayer;

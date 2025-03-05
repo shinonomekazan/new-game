@@ -80,6 +80,18 @@
 		"assets/btn-next.psd": {
 			"type": "binary",
 			"path": "assets/btn-next.psd"
+		},
+		"assets/test/standing.png": {
+			"type": "image",
+			"path": "assets/test/standing.png",
+			"width": 240,
+			"height": 480
+		},
+		"assets/test/standing2.png": {
+			"type": "image",
+			"path": "assets/test/standing2.png",
+			"width": 240,
+			"height": 480
 		}
 	},
 	"moduleMainScripts": {},

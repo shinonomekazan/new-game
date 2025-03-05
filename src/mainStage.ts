@@ -7,6 +7,16 @@ export class actionSender {
 	setValue(values: { id: string, value: string }[]) {
 
 	}
+	setValuesFrom(values: string[]) {
+		this.values = [];
+		for (var i = 1; i < values.length; i++) {
+			let split = values[i].split('=')
+			this.values.push({
+				id: split[0],
+				value: split[1]
+			})
+		}
+	}
 	getValue(name: string): string {
 		for (var i = 0; i < this.values.length; i++) {
 			if (this.values[i].id == name) {
@@ -68,21 +78,21 @@ export class mainStage extends BaseStep {
 	private process() {
 		let runNext = false;
 		let text = this.sheetScript[this.index]
-		while (text.length == 0) {
+		while (text.length == 0 || text[0] == '#') {
 			this.index++;
 			text = this.sheetScript[this.index]
 			if (this.index == this.sheetScript.length) {
 				break;
 			}
 		}
-		switch (text[0]) {
+		switch (text[1]) {
 			case 'typing-effect':
 				{
 					let sen = new actionSender();
-					sen.action = text[0];
+					sen.action = text[1];
 					sen.values = [
 						{
-							id: 'istrue', value: text[1]
+							id: 'istrue', value: text[2]
 						}
 					];
 					setSender(sen);
@@ -97,7 +107,7 @@ export class mainStage extends BaseStep {
 					sen.action = 'message';
 					sen.values = [
 						{
-							id: 'mess', value: text[1]
+							id: 'mess', value: text[2]
 						}
 					];
 					console.log('.,,,,', sen.values);
@@ -111,7 +121,7 @@ export class mainStage extends BaseStep {
 					this.waitComplete = true;
 					let sen = new actionSender();
 					sen.action = 'fadeout';
-					const str = text[1];
+					const str = text[2];
 					const match = str.match(/=(\d+)/);
 					sen.values = [
 						{
@@ -142,9 +152,50 @@ export class mainStage extends BaseStep {
 					sen.values = [
 						{
 							id: 'url',
-							value: text[1]
+							value: text[2]
 						}
 					]
+					setSender(sen);
+					this.runNext();
+					runNext = true;
+				}
+				break;
+			case 'chara-def':
+				{
+					let sen = new actionSender();
+					sen.action = 'chara-def';
+					sen.setValuesFrom(text)
+					setSender(sen);
+					this.runNext();
+					runNext = true;
+				}
+				break;
+			case 'chara-show':
+				{
+					this.waitComplete = true;
+					let sen = new actionSender();
+					sen.action = 'chara-show';
+					sen.setValuesFrom(text)
+					setSender(sen);
+					this.runNext();
+					runNext = true;
+				}
+				break;
+			case 'chara-hide':
+				{
+					this.waitComplete = true;
+					let sen = new actionSender();
+					sen.action = 'chara-hide';
+					sen.setValuesFrom(text)
+					setSender(sen);
+					this.runNext();
+					runNext = true;
+				}
+				break;
+			case 'message-hide':
+				{
+					let sen = new actionSender();
+					sen.action = 'message-hide';
 					setSender(sen);
 					this.runNext();
 					runNext = true;
@@ -167,14 +218,14 @@ export class mainStage extends BaseStep {
 		if (SHEET_ID == null || API_KEY == null) {
 			throw ('api not found')
 		}
-		const RANGE = "Sheet1!A1:D100";
+		const RANGE = "Sheet1!A1:I100";
 		const url = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${RANGE}?key=${API_KEY}`;
 		try {
 			const response = await fetch(url);
 			const data = await response.json();
 			this.sheetScript = data.values;
 			this.waitLoadSheet = false;
-			console.log(this.sheetScript);
+			//console.log(this.sheetScript);
 		} catch (error) {
 			console.error("Error Google Sheet:", error);
 		}

@@ -29,9 +29,6 @@ async function main(param: g.GameMainParameterObject): Promise<void> {
 		scene: scene,
 		parent: scene
 	})
-	//g.game.scenes.push(scene)
-	//g.game.replaceScene(scene)
 	g.game.pushScene(scene)
 }
-
 export = main;

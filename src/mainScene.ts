@@ -1,4 +1,5 @@
 import { background } from "./background";
+import { chara } from "./chara";
 import { fadeScreen } from "./fadeScreen";
 import { FlowManager } from "./flow/flowManager";
 import { Flow } from "./flow/step";
@@ -28,6 +29,9 @@ export class MainScene extends g.Scene {
 			"/assets/message_window.png",
 			"/assets/white.png",
 			"/assets/data.xml",
+			"/assets/test/standing.png",
+			"/assets/test/standing2.png",
+
 		];
 		super(param);
 		this.onLoad.add(this.onGameLoad, this);
@@ -46,6 +50,7 @@ export class MainScene extends g.Scene {
 		let _backgroundStep = new background();
 		let _layoutStep = new stageLayout();
 		let _fadeScreenStep = new fadeScreen();
+		let _charaStep = new chara();
 		//FlowEventName.GameLoad
 		let flowLoad = new Flow(FlowEventName.GameLoad,
 			[
@@ -53,7 +58,8 @@ export class MainScene extends g.Scene {
 				_backgroundStep,
 				_mainStageStep,
 				_startStageStep,
-				_messageStep
+				_messageStep,
+				_charaStep
 			]);
 		this.flowManger.addFlow(flowLoad);
 		//FlowEventName.Test
@@ -73,7 +79,8 @@ export class MainScene extends g.Scene {
 				_mainStageStep,
 				_messageStep,
 				_fadeScreenStep,
-				_backgroundStep
+				_backgroundStep,
+				_charaStep
 			]);
 		this.flowManger.addFlow(flowAction);
 		//FlowEventName.ActionComplete
@@ -83,6 +90,7 @@ export class MainScene extends g.Scene {
 				_backgroundStep,
 				_fadeScreenStep,
 				_mainStageStep,
+				_charaStep
 			]);
 		this.flowManger.addFlow(flowActionComplete);
 		//...fire all flows
